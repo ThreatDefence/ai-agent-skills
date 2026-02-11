@@ -6,8 +6,8 @@ This file captures the HTTP primitives that proved reliable while clearing the F
 
 | Purpose | URL | Notes |
 | --- | --- | --- |
-| API root | `https://portal.threatdefence.io/ac/api/v1` | Default production base URL. Override only if the tenant provides a regional host. |
-| Console | `https://console.threatdefence.io/alerts` | Append `/<alertId>` for a deep link. Region-specific consoles follow the same pattern (e.g., `https://eu.console.threatdefence.io/alerts/<alertId>`). |
+| API root | `https://portal.threatdefence.io/ac/api/v1` | Default production base URL. Override if a user provides an alternative tenancy. |
+| Console | `https://console.threatdefence.io/` | Production console URL. Used for human driven data analysis and investigation. |
 
 Define `THREATDEFENCE_API_BASE` in your environment or .env file and reuse it in scripts.
 
@@ -126,19 +126,13 @@ curl -sS -X PUT \
 
 ## Console Deep Links
 
-Share a console URL with every update so a human analyst can pivot quickly:
-
-```
-https://console.threatdefence.io/alerts/<alertId>
-```
-
-When the tenant uses multiple regions, respect their domain (for example `https://au.console.threatdefence.io/alerts/<alertId>`). Always include the direct link in status updates, reports, and customer communications.
+Share a console URL with every update so a human analyst can pivot quickly. Each alert comes with a `console_link` field. Always provide this as a formatted hyperlink as they can be long.
 
 ## Error Handling
 
 - **401 / 403**: The API key lacks Alert Centre scope or is expired. Rotate and retry.
 - **404**: Alert was already closed or belongs to another tenant. Confirm the ID and environment.
 - **409**: Concurrent update detected. Re-fetch the alert details, merge your comment, retry.
-- **500**: Known issue with the list endpoint. Submit the request ID to ThreatDefence support and continue using targeted GETs.
+- **500**: Submit the request ID to ThreatDefence support and continue using targeted GETs.
 
 Log all request IDs returned in the `x-request-id` header for audit trails.
