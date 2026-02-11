@@ -4,8 +4,6 @@ A collection of skills for AI Agents. Skills are packaged instructions and scrip
 
 ## Available Skills
 
----
-
 ### threatdefence-alert-interactions
 
 Knowledge on how to query and interact with the ThreatDefence platform's alerts API, allowing analysts to analyse, summarise, and handle alerts.
